@@ -35,7 +35,7 @@ def build_index():
     vocab = {}
     doc_norms = defaultdict(float)
 
-    for term_idx, (term, docs) in enumerate(postings.items()):
+    for term, docs in postings.items():
         df = len(docs)
         if df == 0:
             continue
@@ -48,16 +48,19 @@ def build_index():
 
         for doc_id, tf in docs.items():
             w = tf * idf
-            postings[term][doc_id] = w
+            docs[doc_id] = w  # reemplazamos tf por tf-idf
             doc_norms[doc_id] += w * w
 
     # norma final
     for doc_id in doc_norms:
         doc_norms[doc_id] = math.sqrt(doc_norms[doc_id])
 
+    # ⚠️ convertir nested defaultdict -> dict normal para que pickle no muera
+    postings_dict = {term: dict(docs) for term, docs in postings.items()}
+
     # guardar en disco
     with open(INDEX_PATH, "wb") as f:
-        pickle.dump(postings, f)
+        pickle.dump(postings_dict, f)
 
     with open(DOC_NORMS_PATH, "wb") as f:
         pickle.dump(dict(doc_norms), f)

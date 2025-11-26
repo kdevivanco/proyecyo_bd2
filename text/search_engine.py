@@ -82,12 +82,15 @@ def search(query: str, k: int = 10):
         )
     return final
 
-
 if __name__ == "__main__":
+    import time
     while True:
-        q = input("consulta> ")
+        q = input("consulta (MyIndex)> ")
         if not q:
             break
+        start = time.time()
         res = search(q, k=5)
+        elapsed = time.time() - start
+        print(f"Tiempo MyIndex: {elapsed:.4f} s")
         for r in res:
             print(f"{r['score']:.3f} - {r['title']} / {r['artist']}")

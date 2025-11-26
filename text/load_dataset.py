@@ -2,6 +2,7 @@
 
 import csv
 import os
+import pdb
 from pathlib import Path
 
 import psycopg2
@@ -18,13 +19,17 @@ DATA_PATH = Path("data/text/spotify_songs.csv")
 
 
 def get_connection():
-    return psycopg2.connect(
-        host=POSTGRES_HOST,
-        port=POSTGRES_PORT,
-        dbname=POSTGRES_DB,
-        user=POSTGRES_USER,
-        password=POSTGRES_PASS,
-    )
+    try:
+        return psycopg2.connect(
+            host=POSTGRES_HOST,
+            port=POSTGRES_PORT,
+            dbname=POSTGRES_DB,
+            user=POSTGRES_USER,
+            password=POSTGRES_PASS,
+        )
+    except Exception as e:
+        print(">>> Error conectando a Postgres:", repr(e))
+        raise
 
 
 def load_lyrics():
@@ -34,7 +39,8 @@ def load_lyrics():
     conn = get_connection()
     cur = conn.cursor()
 
-    with DATA_PATH.open("r", encoding="utf-8") as f:
+    with DATA_PATH.open("r", encoding="latin-1", errors="ignore") as f:
+        #pdb.set_trace()
         reader = csv.DictReader(f)
         count = 0
         for row in reader:
