@@ -55,7 +55,6 @@ def build_index():
     for doc_id in doc_norms:
         doc_norms[doc_id] = math.sqrt(doc_norms[doc_id])
 
-    # ⚠️ convertir nested defaultdict -> dict normal para que pickle no muera
     postings_dict = {term: dict(docs) for term, docs in postings.items()}
 
     # guardar en disco
