@@ -4,13 +4,11 @@ import cv2
 import numpy as np
 from pathlib import Path
 
-from multimedia.utils import save_pickle
+from utils import save_pickle
 
-# Carpeta donde van las imágenes del dataset
-DATA_PATH = Path("data/multimedia/images/")
-# Archivo donde se guardan todos los descriptores
-OUT_PATH = Path("indexes/features_raw.pkl")
-
+ROOT = Path(__file__).resolve().parents[1]  
+DATA_PATH = ROOT / "data" / "images"
+OUT_PATH = ROOT / "indexes" / "features_raw.pkl"
 
 def get_image_files():
     """Devuelve la lista de imágenes (.jpg/.jpeg/.png) en DATA_PATH."""

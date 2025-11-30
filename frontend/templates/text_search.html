@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Búsqueda en Texto</h3>
+
+<form method="POST" class="mb-3">
+    <label>Consulta:</label>
+    <input name="query" class="form-control" value="{{query}}"/>
+
+    <label class="mt-2">Top-K:</label>
+    <input type="number" name="k" class="form-control" value="{{k}}" min="1"/>
+
+    <button class="btn btn-primary mt-3">Buscar</button>
+</form>
+
+{% if results_myindex %}
+<h4>Resultados MyIndex ({{ time_my }}s)</h4>
+<table class="table table-striped">
+    <tr><th>Score</th><th>Título</th><th>Artista</th><th>Letra</th></tr>
+    {% for r in results_myindex %}
+    <tr>
+        <td>{{ r.artist }}</td>
+        <td>{{ r.id }}</td>
+        <td>{{ r.score }}</td>
+        <td>{{ r.title}}...</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+{% if results_pg %}
+<h4>Resultados PostgreSQL ({{ time_pg }}s)</h4>
+<table class="table table-striped">
+    <tr><th>Score</th><th>Título</th><th>Artista</th><th>Letra</th></tr>
+    {% for r in results_pg %}
+    <tr>
+       <td>{{ r.artist }}</td>
+        <td>{{ r.id }}</td>
+        <td>{{ r.score }}</td>
+        <td>{{ r.title }} </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+{% endblock %}
