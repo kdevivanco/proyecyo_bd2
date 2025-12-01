@@ -16,13 +16,14 @@
 {% if results_myindex %}
 <h4>Resultados MyIndex ({{ time_my }}s)</h4>
 <table class="table table-striped">
-    <tr><th>Score</th><th>Título</th><th>Artista</th><th>Letra</th></tr>
+    <tr><th>Score</th><th>Título</th><th>Artista</th><th>Titulo</th><th>Letra</th></tr>
     {% for r in results_myindex %}
     <tr>
         <td>{{ r.artist }}</td>
         <td>{{ r.id }}</td>
         <td>{{ r.score }}</td>
-        <td>{{ r.title}}...</td>
+        <td>{{ r.title}}</td>
+        <td>{{ r.lyric }}</td>
     </tr>
     {% endfor %}
 </table>
@@ -31,13 +32,14 @@
 {% if results_pg %}
 <h4>Resultados PostgreSQL ({{ time_pg }}s)</h4>
 <table class="table table-striped">
-    <tr><th>Score</th><th>Título</th><th>Artista</th><th>Letra</th></tr>
+    <tr><th>Score</th><th>Título</th><th>Artista</th><th>Titulo</th><th>Letra</th></tr>
     {% for r in results_pg %}
     <tr>
        <td>{{ r.artist }}</td>
         <td>{{ r.id }}</td>
         <td>{{ r.score }}</td>
         <td>{{ r.title }} </td>
+        <td>{{ r.lyric }}</td>
     </tr>
     {% endfor %}
 </table>

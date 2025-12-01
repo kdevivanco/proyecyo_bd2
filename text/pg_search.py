@@ -10,7 +10,7 @@ def pg_search(query: str, k: int = 5):
 
     # usamos plainto_tsquery para algo parecido a lenguaje natural
     sql = """
-    SELECT id, title, artist,
+    SELECT id, title, artist, lyric,
            ts_rank(ts, plainto_tsquery('english', %s)) AS rank
     FROM documents
     WHERE ts @@ plainto_tsquery('english', %s)
@@ -27,7 +27,7 @@ def pg_search(query: str, k: int = 5):
     conn.close()
 
     results = [
-        {"id": r[0], "title": r[1], "artist": r[2], "score": float(r[3])}
+        {"id": r[0], "title": r[1], "artist": r[2], "lyric": r[3], "score": float(r[4])}
         for r in rows
     ]
     return results, elapsed

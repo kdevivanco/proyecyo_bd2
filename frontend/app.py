@@ -20,7 +20,7 @@ app = Flask(__name__)
 
 ROOT = Path(__file__).resolve().parents[1]  
 
-IMG_DIR = ROOT / "data" / "multimedia" / "images"
+IMG_DIR = ROOT / "data"  / "images"
 
 
 # BUSQUEDA DE TEXTO
@@ -40,11 +40,18 @@ def text_search():
         # --- MyIndex ---
         t0 = time.time()
         results_myindex = myindex_search(query, k=k)
+        if results_myindex:
+            for res in results_myindex:
+                res["lyric"] = res["lyric"][0:100]
         time_my = round(time.time() - t0, 4)
 
         # --- PostgreSQL ---
         t0 = time.time()
         results_pg = pg_search(query, k=k)
+        if results_pg:
+            results_pg = results_pg[0]
+            for res in results_pg:
+                res["lyric"] = res["lyric"][0:100]
         time_pg = round(time.time() - t0, 4)
 
         #pdb.set_trace()
@@ -65,7 +72,8 @@ def text_search():
 def image_search():
     files = os.listdir(IMG_DIR)
     files = [f for f in files if f.lower().endswith((".jpg", ".jpeg", ".png"))]
-
+    files = files [1:50000]
+    #pdb.set_trace()
     query_img = None
     k = 5
     seq_results = None

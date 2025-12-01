@@ -68,7 +68,7 @@ def search(query: str, k: int = 10):
     cur = conn.cursor()
     doc_ids = [r[0] for r in results]
     cur.execute(
-        "SELECT id, title, artist FROM documents WHERE id = ANY(%s)",
+        "SELECT id, title, artist, lyric FROM documents WHERE id = ANY(%s)",
         (doc_ids,),
     )
     meta = {row[0]: row[1:] for row in cur.fetchall()}
@@ -76,9 +76,9 @@ def search(query: str, k: int = 10):
 
     final = []
     for doc_id, score in results:
-        title, artist = meta.get(doc_id, ("", ""))
+        title, artist,lyric = meta.get(doc_id, ("", ""))
         final.append(
-            {"id": doc_id, "title": title, "artist": artist, "score": score}
+            {"id": doc_id, "title": title, "artist": artist, "lyric": lyric, "score": score}
         )
     return final
 

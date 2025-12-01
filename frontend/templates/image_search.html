@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Búsqueda de Imágenes</h3>
+
+<form method="POST" class="mb-3">
+    <label>Imagen de consulta:</label>
+    <select name="image" class="form-control">
+        {% for f in images %}
+            <option value="{{f}}" {% if f == query_img %}selected{% endif %}>
+                {{f}}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label class="mt-2">Top-K:</label>
+    <input name="k" type="number" class="form-control" value="{{k}}"/>
+
+    <button class="btn btn-primary mt-3">Buscar</button>
+</form>
+
+{% if query_img %}
+<h4>Imagen de consulta</h4>
+<img src="/static/{{query_img}}" style="max-width:200px" class="mb-4"/>
+{% endif %}
+
+{% if seq_results %}
+<h4>KNN Secuencial ({{ seq_time }} s)</h4>
+<div class="row">
+  {% for score, fname in seq_results %}
+  <div class="col-3 mb-4">
+    <div class="card">
+      <img src="/static/{{fname}}" class="card-img-top">
+      <div class="card-body">
+        <p class="card-text mb-1"><strong>{{ fname }}</strong></p>
+        <p class="card-text">Score: {{ "%.3f"|format(score) }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if inv_results %}
+<h4>KNN con Índice Invertido ({{ inv_time }} s)</h4>
+<div class="row">
+  {% for score, fname in inv_results %}
+  <div class="col-3 mb-4">
+    <div class="card">
+      <img src="/static/{{fname}}" class="card-img-top">
+      <div class="card-body">
+        <p class="card-text mb-1"><strong>{{ fname }}</strong></p>
+        <p class="card-text">Score: {{ "%.3f"|format(score) }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

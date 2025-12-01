@@ -7,6 +7,7 @@ HIST_PATH = ROOT / "indexes" / "histograms.pkl"
 INV_PATH = ROOT / "indexes" / "inverted_index.pkl"
 
 
+
 def load_all():
     with HIST_PATH.open("rb") as f:
         histograms = pickle.load(f)
