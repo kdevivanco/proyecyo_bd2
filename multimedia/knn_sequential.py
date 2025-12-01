@@ -17,8 +17,8 @@ def load_histograms():
         return pickle.load(f)  
 
 
-def knn_query(query_img, k=K):
-    histograms = load_histograms()
+def knn_query(query_img,histograms, k=K):
+   # histograms = load_histograms()
     if query_img not in histograms:
         raise KeyError(f"{query_img} no existe en los histogramas")
 
